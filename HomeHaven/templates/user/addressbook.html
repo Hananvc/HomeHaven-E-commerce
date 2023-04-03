@@ -1,0 +1,46 @@
+{% extends 'user/user.html' %}
+
+{% block profile %}
+<form method="POST">
+    {% csrf_token %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body"> 
+           <h5 class="p-2 text-danger" style="border-bottom: 2px solid orange;">Saved Addresses</h5>
+            <div class="container">
+                {% for address in addresses %}
+                <div class="container">
+                    <div class="card shadow my-2 col-6">
+        
+                        <div class="card-body"> 
+                            <input type="checkbox" name="selected_addresses" value="{{  address.id }}">
+                            <div class="container">
+                                <p>{{ address.firstname }}  {{ address.lastname }}</p>
+                                <p>{{ address.phone }}</p>
+                                <p>{{ address.email }}</p>
+                                <p>{{ address.address_line_1 }}</p> 
+                                <p>{{ address.address_line_2 }}</p>
+                                <p>{{ address.city }} , {{ address.state }}</p>  
+                                <p>{{ address.pincode }}</p>
+                                <a href="{% url 'edit_address' address.id %}" class="btn btn-info mt-5">Edit</a>
+                                {% if address.default == True %}
+                                <a href="" class="btn btn-danger mt-5 mx-2 disabled">Default</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <a href="{% url 'addaddress' 0 %}" class="btn btn-success mt-5">Add Address</a>
+                <input type="submit" class="btn btn-danger mt-5" value="Delete">
+                
+
+   
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+{% endblock profile %}

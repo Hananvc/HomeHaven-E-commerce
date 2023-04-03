@@ -1,0 +1,41 @@
+{% extends 'user/user.html' %}
+{% block profile %} 
+
+
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">  
+           <h5 class="p-2 text-danger text-center" style="border-bottom: 2px solid orange;">Your Orders</h5>
+           <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Order Id</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Order Status</th>
+                <th scope="col">ordered On</th>
+                <th scope="col">View more</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            {% for order in orders %}
+            <tbody>
+              <tr>
+                <th scope="row">{{ order.order_number }}</th>
+                <td>{{ order.order_total }}</td>
+                <td>{{ order.status  }}</td>
+                <td>{{ order.created_at }}</td>
+                <td><a href="{% url 'order_complete' order.order_number %}"><i class='fas fa-file-pdf' style='font-size:28px;color:red'></i></a></td>
+                <td><a href="{% url 'vieworder' order.id %}" class="btn btn-success btn-sm">view</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock profile %}

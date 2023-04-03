@@ -1,0 +1,58 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">All Registered Users</h5>
+        <div class="container-fluid">
+            <table class="table table-bordered table-sm" id="mydata">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                {% for i in user %}
+                {% if not i.is_superuser %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.first_name}}</td>
+                    {% comment %} <td>{{i.last_name}}</td> {% endcomment %}
+                    <td>{{i.username}}</td>
+                    <td>
+                        <form method="POST" action="{% url 'blockuser' i.id %}">
+                            {% csrf_token %}
+                            {% if i.is_active %}
+                              <button type="submit" onclick="return confirm('Are You Sure want to block this user ?')" class="btn btn-danger">Block</button>
+                            {% else %}
+                              <button type="submit" onclick="return confirm('Are You Sure want to unblock this user ?')" class="btn btn-primary">Unblock</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    <!--Alertify JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script>
+        alertify.set('notifier','position', 'top-right');
+        {% for msg in messages %}
+            alertify.success('{{ msg }}');
+        {% endfor %}
+        
+    </script>
+
+{% endblock main %}

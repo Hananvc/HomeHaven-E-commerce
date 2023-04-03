@@ -1,0 +1,63 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2 text-center" style="border-bottom: 2px solid orange;">Sales Report</h5>
+        <div class="container-fluid">
+            <form method="GET" class="form-inline mb-3 d-flex">
+                {% csrf_token %}
+                <div class="form-group col-2 mr-2" style="margin-right:20px;">
+                    <label for="from_date">From:</label>
+                    <input type="date" name="from_date" id="from_date" class="form-control" max="{{ today_date }}" value="{{ from_date|default:'' }}">
+                </div>
+                <div class="form-group col-2 mr-2" style="margin-right:20px;">
+                    <label for="to_date">To:</label>
+                    <input type="date" name="to_date" id="to_date" class="form-control" max="{{ today_date }}" value="{{ to_date|default:'' }}">
+                </div>
+                <button type="submit" class="btn btn-primary" style="height: 39px; margin-top: 24px;">Generate Report</button>
+            </form>
+            {% if orders %}
+            <table id="salesdata" class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Order ID</th>
+                        <th>Ordered Date</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ order.order_number }}</td>
+                            <td>{{ order.created_at }}</td>
+                            <td>{{ order.paid_amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    
+                    
+                    
+                </tbody>
+            </table>
+            {% else %}
+            <h4 class="text-center my-5">No Data Available On The Selected Dates</h4>
+            {% endif %}
+        </div>
+  </div>
+</div>
+
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+            
+    
+        <script>
+            alertify.set('notifier','position', 'top-right');
+            {% for msg in messages %}
+                alertify.success('{{ msg }}');
+            {% endfor %}
+        </script>
+
+{% endblock main %}

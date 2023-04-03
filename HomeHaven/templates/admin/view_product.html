@@ -1,0 +1,59 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">All Product</h5>
+        <div class="container-fluid">
+
+            <table id="mydata" class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for i in product %}
+                    <tr>
+                        <td>{{ forloop.counter}}</td>
+                        <td><img src="{{ i.productimage_set.first.images.url }}" style="width:100px"/><br>
+                      
+                        <td>{{i.name}}</td>
+                        <td>{{i.category.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.stock}}</td>
+                        <td>
+                            <a href="{% url 'editproduct' i.id %}" class="text-success mx-2">Edit</a>
+                            <a href="{% url 'deleteproduct' i.id %}" class="text-danger" onclick="confirmDelete(event)">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+    <!--Alertify JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script>
+    function confirmDelete(event) {
+        event.preventDefault(); // prevent the link from redirecting immediately
+        alertify.confirm('Message', 'Are You Sure Want to Delete This', function(){
+            window.location.href = event.target.href; // redirect to the delete URL
+        }, function(){ 
+            alertify.error('Cancel')
+        });
+    }
+</script>
+
+
+{% endblock main %}

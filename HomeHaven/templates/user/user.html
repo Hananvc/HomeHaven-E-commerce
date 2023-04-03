@@ -1,0 +1,110 @@
+{% extends 'user/index.html' %}
+
+{% block banner %}{% endblock banner %}
+
+{% block contents %}
+
+<div class="container mt-5 pt-5">
+    <div class="row mt-5">
+        <div class="col-lg-3 my-lg-0 my-md-1">
+            <div id="sidebar" class="bg-purple">
+                <div class="h4 text-white">My Profile</div>
+                <ul>
+                    <li>
+                        <a href="{% url 'user' %}" class="text-decoration-none d-flex align-items-start">
+                            <div class="fas fa-box pt-2 me-3"></div>
+                            <div class="d-flex flex-column">
+                                <div class="link">My Account</div>
+                                <div class="link-desc">View My Account</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'orderbook' %}" class="text-decoration-none d-flex align-items-start">
+                            <div class="fas fa-box-open pt-2 me-3"></div>
+                            <div class="d-flex flex-column">
+                                <div class="link">My Orders</div>
+                                <div class="link-desc">View & Manage orders and returns</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'useraddress' %}" class="text-decoration-none d-flex align-items-start">
+                            <div class="far fa-address-book pt-2 me-3"></div>
+                            <div class="d-flex flex-column">
+                                <div class="link">Address Book</div>
+                                <div class="link-desc">View & Manage Addresses</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'updateuserprofile' %}" class="text-decoration-none d-flex align-items-start">
+                            <div class="far fa-user pt-2 me-3"></div>
+                            <div class="d-flex flex-column">
+                                <div class="link">Update Profile</div>
+                                <div class="link-desc">Change your profile details</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'changepassword' %}" class="text-decoration-none d-flex align-items-start">
+                            <div class="fas fa-key pt-2 me-3"></div>
+                            <div class="d-flex flex-column">
+                                <div class="link">Change Password</div>
+                                <div class="link-desc">Change your Password</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-9 my-lg-0 my-1">
+            {% block profile %}
+            <div id="main-content" class="bg-white border">
+                <div class="d-flex flex-column">
+                    {% if user.profile.image %}
+                        <img class="rounded-circle mt-5 " width="150px" src="{{ user.profile.image.url }}"
+                        alt="{{ user.username }} profile picture">
+                    {% else %}
+                        <img class="rounded-circle mt-5" width="150px"
+                        src="https://www.getillustrations.com/photos/pack/video/55895-3D-AVATAR-ANIMATION.gif"
+                        alt="{{ user.username }} profile picture">
+                    {% endif %}
+                    <div class="h5 ">Hello : {{ request.user.first_name }}</div>
+                    <br>
+                    <div><a class="font-weight-bold">Logged in as : {{ request.user.username}}</a></div>
+                </div>
+                <div class="d-flex my-4 flex-wrap justify-content-between">
+                    <div class="box me-4 my-1 bg-light">
+                        <img src="https://www.freepnglogos.com/uploads/box-png/cardboard-box-brown-vector-graphic-pixabay-2.png"
+                            alt="">
+                        <div class="d-flex align-items-center mt-2">
+                            <div class="tag"><a style="color: #ff3368;" href="{% url 'orderbook' %}">Orders placed</a></div>
+                            <div class="ms-auto number"></div>
+                        </div>
+                    </div>
+                    <div class="box me-4 my-1 bg-light">
+                        <img src="https://www.freepnglogos.com/uploads/shopping-cart-png/shopping-cart-campus-recreation-university-nebraska-lincoln-30.png"
+                            alt="">
+                        <div class="d-flex align-items-center mt-2">
+                            <div class="tag"><a href="{% url 'viewcart' %}" style="color: #ff3368;" >Items in Cart</a></div>
+                            <div class="ms-auto number"></div>
+                        </div>
+                    </div>
+                    <div class="box me-4 my-1 bg-light">
+                        <img src="https://www.freepnglogos.com/uploads/love-png/love-png-heart-symbol-wikipedia-11.png"
+                            alt="">
+                        <div class="d-flex align-items-center mt-2">
+                            <div class="tag"><a href="{% url 'userwishlist' %}" style="color: #ff3368;">Wishlist</a></div>
+                            <div class="ms-auto number"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+  </div>
+
+</div>
+
+{% endblock contents %}

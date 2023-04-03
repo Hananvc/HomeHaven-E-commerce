@@ -1,0 +1,31 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Update Category</h5>
+        <div class="container-fluid">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" name="name" class="form-control" value="{{category.name}}" placeholder="Category Name">
+                        
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Category Image</label>        
+                            <input name="images" type="file" class="form-control"   id="image-input"  required>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

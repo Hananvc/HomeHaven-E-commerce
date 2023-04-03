@@ -1,0 +1,206 @@
+{% extends 'user/index.html' %}
+{% load static %}
+
+{% block banner %}
+
+{% comment %} <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Shop Single</h2>
+              <p>Home <span>-</span> Shop Single</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> {% endcomment %}
+{% endblock banner %}
+
+
+
+{% block contents %}
+<!--================Single Product Area =================-->
+{% comment %} <div class="product_image_area section_padding ">
+    <div class="container">
+      <div class="row s_product_inner justify-content-between">
+        <div class="col-lg-7 col-xl-7">
+          <div class="product_slider_img">
+            <div id="vertical">
+                {% for i in images %}
+                <div data-thumb="{{i.images.url}}" style="max-width: 100%; max-height: 100%;">
+                  <img src="{{i.images.url}}" style="max-width: 100%; max-height: 100%;" />
+                </div>
+                {% endfor %}
+             
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="s_product_text">
+            <h3>{{prod.name}}</h3>
+            <h2>$ {{prod.price}}</h2>
+            <ul class="list">
+              <li>
+                <a class="active">
+                  <span>Category</span> : {{prod.category}}</a>
+              </li>
+              <li>
+                <a href="#"> <span>Availibility</span> : In Stock</a>
+              </li>
+            </ul>
+            <p>{{prod.description}} </p>
+            <div class="card_area d-flex justify-content-between align-items-center">
+              <div class="product_count">
+                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                <input class="input-number" type="text" value="1" min="0" max="10">
+                <span class="number-increment"> <i class="ti-plus"></i></span>
+              </div>
+              <form action="{% url 'add_to_cart' product_id=prod.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Add to Cart</button>
+              </form>
+              <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> {% endcomment %}
+  <!--================End Single Product Area =================-->
+
+  <div class="product_image_area section_padding">
+    <div class="container">
+      <div class="row s_product_inner justify-content-between">
+        <div class="col-lg-7 col-xl-7">
+          <form action="{% url 'add_to_cart' product_id=prod.id %}" method="POST">
+            {% csrf_token %}
+          <div class="product_slider_img">
+            <div id="vertical">
+                {% for i in images %}
+                <div data-thumb="{{i.images.url}}" style="max-width: 100%; max-height: 100%;">
+                  <img src="{{i.images.url}}" style="max-width: 100%; max-height: 100%;" />
+                </div>
+                {% endfor %}
+             
+            </div>
+          </div> 
+        </div>
+        <div class="col-lg-5 col-xl-4">
+          <div class="s_product_text">
+            <h3>{{prod.name}}</h3>
+            <h2>Rs. {{prod.price}}</h2>
+            <ul class="list">
+              <li>
+                <a class="active">
+                  <span>Category</span> : {{prod.category}}</a>
+              </li>
+              <li>
+                {% if prod.stock > 0 %}
+                <a href="#"> <span>Availibility</span> : In Stock</a>
+                {% else %}
+                <a href="#"> <span>Availibility</span> : Out of Stock</a>
+                {% endif %}
+              </li>
+            </ul>
+            <p>{{prod.description}}</p>
+            
+            <div class="card_area d-flex justify-content-between align-items-center">
+              <div class="product_count">
+                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                <input class="input-number" type="text" value="1" min="1" max="10" name="quantity" >
+                <span class="number-increment"> <i class="ti-plus"></i></span>
+              </div>
+             
+              
+                
+                <button type="submit" class="btn btn-danger rounded-pill" >Add to Cart</button>
+               
+              </form>
+              <a href="{% url 'add_to_wishlist' product_id=prod.id %}" class="like_us "> <i class="ti-heart"></i> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% comment %} REVIEW AREA {% endcomment %}
+<div class="container-fluid">
+  <div class="col-lg-6 mx-auto">
+    <div class="review_box text-center">
+      <h4 style="color: #ff3368; font-weight: bold">Add a Review Here</h4>
+
+
+  {% comment %} REWIEW SECTION {% endcomment %}
+
+      <form class="row contact_form" action="" method="post" >
+        {% csrf_token %}
+        <div class="col-md-12">
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Your Full name" / Required>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email Address" />
+          </div>
+        </div>
+        <div class="col-md-12 ">
+          <div class="form-group ">
+            <textarea class="form-control " name="message" rows="1" placeholder="Review"></textarea>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <button type="submit" value="submit" class="btn_3 my-4">
+            Submit Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+<section>
+
+<div class="review_box text-center mt-4">
+  <h4 style="color: #ff3368; font-weight: bold">Customer Reviews</h4>
+  <hr>
+    <div class="row text-center d-flex align-items-stretch ">
+    {% if reviews %}
+      {% for i in reviews %}
+      <div class="col-md-4 mb-5 mb-md-0 d-flex align-items-stretch my-5">
+    
+
+        <div class="card testimonial-card">
+          <div class="card-up" style="background-color: #9d789b;"></div>
+          <div class="avatar mx-auto bg-white">
+            {% if i.user.profile.image %}
+            <img src="{{i.user.profile.image.url}}"
+              class="rounded-circle img-fluid" />
+              {% else %}
+              <img src="https://manager.almadarisp.com/user/img/user.png" class="rounded-circle img-fluid" />
+              {% endif %}
+
+          </div>
+  
+
+          <div class="card-body" style="min-width:350px; max-width:350px" >
+            <h4 class="mb-4">{{i.user.first_name}}</h4>
+            <hr />
+            <p class="dark-grey-text mt-4">
+              <i class="fas fa-quote-left pe-2"></i>  {{i.feedback}}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="review_box text-center mt-4 mx-auto" >
+        <h5 style="color: #ff3368; ">Start Posting your Reviews Here.</h5>
+      </div>
+      {% endif %}
+  </section>
+</div>
+{% endblock contents %}
+

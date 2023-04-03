@@ -1,0 +1,25 @@
+
+{% extends 'user/user.html' %}
+
+
+{% block profile %}
+
+
+<div class="container">
+    <div class="card shadow col-lg-8">
+        <div class="card-body"> 
+          <h5 class="p-2 text-danger" style="border-bottom: 2px solid orange;">Update Your Profile</h5>
+          <div class="container">
+            <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+              <button type="submit" class="btn btn-primary mt-3">Save changes</button> 
+            </form>
+          </div>
+        </div>
+     </div>
+</div>
+
+{% endblock  %}
+

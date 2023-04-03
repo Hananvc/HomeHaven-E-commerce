@@ -1,0 +1,69 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Coupon</h5>
+        <div class="container-fluid">
+
+            <table class="table" id="mydata">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Discount</th>
+                        <th>Min Value</th>
+                        <th>Valid From</th>
+                        <th>Valid To</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coupon in coupons %}
+                        <tr>
+                            <td>{{ coupon.code }}</td>
+                            <td>{{ coupon.discount }} %</td>
+                            <td>{{ coupon.min_value }}</td>
+                            <td>{{ coupon.valid_from }}</td>
+                            <td>{{ coupon.valid_at }}</td>
+                            {% if coupon.active == True %}
+                            <td> True </td>
+                            {% else %}
+                            <td> False </td>
+                            {% endif %}
+                            <td>
+                                <a href="{% url 'editcoupon' coupon.id %}" class="btn btn-primary">Edit</a>
+                                <a href="{% url 'deletecoupon' coupon.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <!--Alertify JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script>
+        alertify.set('notifier','position', 'top-right');
+        {% for msg in messages %}
+            alertify.success('{{ msg }}');
+        {% endfor %}
+        
+    </script>
+
+    <script>
+        function confirmDelete(event) {
+            event.preventDefault(); // prevent the link from redirecting immediately
+            alertify.confirm('Message', 'Are You Sure Want to Delete This', function(){
+                window.location.href = event.target.href; // redirect to the delete URL
+            }, function(){ 
+                alertify.error('Cancel')
+            });
+        }
+    </script>
+
+{% endblock main %}

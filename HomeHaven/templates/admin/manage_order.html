@@ -1,0 +1,146 @@
+{% extends 'admin/admin_dash.html' %}
+
+{% block main %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class= "container text-center">
+    <h2 class="text-center">Manage Orders</h2>
+    {% if orders %}
+        <table id="mydata" class="table table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">amount</th>
+                <th scope="col">payment mode</th>
+                <th scope="col">tracking id</th>
+                <th scope="col">status</th>
+                <th scope="col">action</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="myTable" >
+
+                {% for i in orders %}
+
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{i.address.firstname}}</td>
+                <td>₹{{i.order_total}}</td>
+                <td>{{i.payment.payment_method}}</td>
+                <td>{{i.order_number}}</td>
+                <td>{{i.status}}</td>
+                <td>
+                    {% if i.status == 'Delivered' %}
+                    <label class="btn-success btn">Delivered</label>
+                    {% elif i.status == 'Cancelled' %}
+                    <label class="btn-secondary btn  disabled">Cancelled</label>
+                    {% elif i.status == 'Returned' %}
+                    <label class="badge badge-warning">Returned</label>
+                    {%else%}
+                    <label class="btn btn-primary" type="button"  data-toggle="modal" data-target="#myModal-{{i.id}}">Change</button>
+                    {%endif%}
+                </td>
+                  <td>
+                  {% if i.status == 'Order Confirmed' %}
+                  {% elif i.is_returned %}
+                    <b>Reason : </b><p>{{i.return_reason}}</p>
+                  {% endif %}
+                </td>
+              </tr>
+                <!-- Status Modal -->
+                <div class="modal fade" id="myModal-{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5>Change Status</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="{% url 'updateorder' i.id %}" method="POST">
+                            {% csrf_token %}
+
+                            {% if i.status == 'Order Confirmed' %}
+
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled checked>
+                              <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Shipped">
+                              <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Out for delivery" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+                            </div>
+                        
+                            {% elif i.status == 'Shipped' %}
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Shipped" disabled checked>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Out for delivery">
+                              <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+                            </div>
+                        
+                            {% else %}
+                        
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Shipped" disabled>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Out for delivery"  disabled checked>
+                              <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+                            </div>
+                            <div class="row mb-2">
+                              <input class="ml-3" type="radio" name="status" value="Delivered">
+                              <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+                            </div>
+                        
+                            {% endif %}
+                        
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                          </form>
+                      </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            </tbody>
+    </table>
+    {% else %}
+        <h4 class= "text-center">No records</h4>
+    {% endif %}
+               
+</div>
+</div>
+</div>
+
+{% endblock main %}

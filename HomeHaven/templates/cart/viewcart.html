@@ -1,0 +1,112 @@
+{% extends 'user/index.html' %}
+{% block banner %}
+
+
+{% endblock banner %}
+
+{% block contents %}
+
+  <div class="container-fluid">
+  <section class="cart_area padding_top w-100">
+    <center>
+      <h3 ><span style="color: #ff3368; font-weight: bold">Your HomeHaven Cart</span></h3>
+  </center>
+    <form class="row contact_form" action="{% url 'checkout' %}" method="POST" >
+    {% csrf_token %}
+    <div class="container mt-5">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for item in cart_items %}
+              <tr>
+                <td>
+                  <div class="media">
+                    <div class="d-flex">
+                      <a href="{% url 'singleproduct' item.product.id %}"><img src="{{ item.product.productimage_set.first.images.url }}" alt="" style="height: 70px;"></a>
+                    </div>
+                    <div class="media-body">
+                      <p>{{ item.product.name }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <h5>	
+                    ₹ {{ item.product.price }}</h5>
+                </td>
+                {% if item.product.stock == 0 %}
+                <td>
+                  <div class="product_count">
+                  <i class="text-danger">Product out of stock</i>
+                  </div>
+                  <td>
+                    <h5><del>{{ item.price }} </del></h5>
+                  </td>
+                </td>
+                {% else %}
+                <td>
+                  <div class="product_count">
+                    <a href="{% url 'removecartitem' item.product.id %}" > <i class="fas fa-minus"></i></a>
+                    <input class="input-number" name="quantity" type="text" value="{{item.quantity}}" min="0" max="100">
+                    <a href="{% url 'addcartitem' item.product.id %}" > <i class="fas fa-plus"></i></a>
+                  </div>
+                </td>
+                <td>
+                  <h5>{{ item.price }}</h5>
+                </td>
+                {% endif %}
+                <td>
+                  <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="{% url 'removecartproduct' item.product.id  %}" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              <tr class="bottom_button">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                </td>
+
+                <td></td>
+                <td>
+                  <h5>Subtotal</h5>
+                </td>
+                <td>
+                  <h5>₹{{total}}</h5>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+      <br>
+          <div class="checkout_btn_inner float-right">
+            <a class="btn_1" href="{% url 'userproduct' 0 %}">Continue Shopping</a>
+            {% if total > 0 %}
+            <button type ="submit" class="btn_1 checkout_btn_1" >
+
+              Proceed to checkout
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      </form>
+  </section>
+  </div>
+{% endblock contents %}
+
