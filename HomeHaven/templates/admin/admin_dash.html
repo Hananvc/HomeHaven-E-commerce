@@ -159,75 +159,54 @@
 
  
     {% block main %}
-    <div class="row ">
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Total Users</h4>
-                    <h5 style="color : #F1948A">{{user}}</h5>
-                </div>
+    <div class="row">
+    <div class="col-lg-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Users</h4>
+                <h5 style="color : #F1948A">{{user}}</h5>
             </div>
+            {% comment %} <div class="card-footer">
+                <a href="" class="text-warning">View Details >></a>
+            </div> {% endcomment %}
         </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Total Products</h4>
-                    <h5 style="color : #F1948A">{{product}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Total Category</h4>
-                    <h5 style="color : #F1948A">{{category}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Total Order</h4>
-                    <h5 style="color : #F1948A"> {{order}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Razorpay</h4>
-                    <h5 style="color : #F1948A">{{razorpay_sum}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Cash on delivery</h4>
-                    <h5 style="color : #F1948A">{{cod_sum}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Income expected</h4>
-                    <h5 style="color : #F1948A">{{income_expected}}</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 p-2">
-            <div class="card shadow bg-dark">
-                <div class="card-body">
-                    <h4 class="text-light">Income Generated</h4>
-                    <h5 style="color : #F1948A">{{total_income}}</h5>
-                </div>
+    </div>
+    <div class="col-lg-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Products</h4>
+                <h5 style="color : #F1948A">{{product}}</h5>
             </div>
         </div>
     </div>
-    
-    
-    
+    <div class="col-lg-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Category</h4>
+                <h5 style="color : #F1948A">{{category}}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Order</h4>
+                <h5 style="color : #F1948A"> {{order}}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Revenue</h4>
+                <h5 style="color : #F1948A">{{total_income}}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     <!--Graphs-->
     <div class="container">
         <div class="row my-5">
@@ -321,30 +300,27 @@
             </div>
         </div>
     </div>
-    <!--End Graphs-->
-    
-    
-    
-    
-        <!--script for chart-->
-            <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-         <!--Alertify JavaScript -->
-         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <!--End Graphs-->
 
-            
-    
-        <script>
-            alertify.set('notifier','position', 'top-right');
-            {% for msg in messages %}
-                alertify.success('{{ msg }}');
-            {% endfor %}
-        </script>
 
+
+
+    <!--script for chart-->
+        <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+     <!--Alertify JavaScript -->
+     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+     <script>
+         alertify.set('notifier','position', 'top-right');
+         {% for msg in messages %}
+             alertify.success('{{ msg }}');
+         {% endfor %}
+    </script>
     {% endblock main %}
 </div>
 <!--end page content holder-->

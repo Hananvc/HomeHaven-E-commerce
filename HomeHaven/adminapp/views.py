@@ -41,20 +41,13 @@ def admindash(request):
     order=Order.objects.all().count()
     coupons=Coupon.objects.all().count()
     total_income = Payment.objects.aggregate(Sum('amount_paid'))['amount_paid__sum']
+    refunded = Payment.objects.filter(refund_id=None)
+    refund_income = refunded.aggregate(Sum('amount_paid'))['amount_paid__sum']
     cod_sum = Payment.objects.filter(payment_method='COD' ).aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
     cod_sum = round(cod_sum,2)
     razorpay_sum = Payment.objects.filter(payment_method='Paid by Razorpay').aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
-
-    total_income=total_income-cod_sum
-    income_expected=total_income+cod_sum
-
     
 
-    refunded = Payment.objects.filter(refund_id=None)
-    refund_income = refunded.aggregate(Sum('amount_paid'))['amount_paid__sum']
-    
-
-    refund_income=refund_income-cod_sum
     
             
     context={
@@ -67,8 +60,8 @@ def admindash(request):
         'razorpay_sum':razorpay_sum,
         'cod_sum':cod_sum,
         'allcategory':allcategory,
-        'income_expected':income_expected,
-}
+
+    }
 
     return render(request, 'admin/admin_dash.html' , context)
 
