@@ -117,7 +117,7 @@
                 </h6>
               {% elif order.status != 'Cancelled' and order.status != 'Returned'  %}
                   <h6>
-                    <a href="{% url 'cancel_order' order.id  %}"><button class="btn btn-danger btn-sm" id ="refundButton">Cancel Order</button></a> 
+                    <a href="{% url 'cancel_order' order.id  %}"><button class="btn btn-danger btn-sm" id ="refundButton" onclick="return confirm('Are You Sure?')">Cancel Order</button></a> 
                   </h6>
                 {% else %}
                 <a href="#" class="btn btn-secondary btn-sm disabled" role="button" aria-disabled="true">Cancelled</a>
