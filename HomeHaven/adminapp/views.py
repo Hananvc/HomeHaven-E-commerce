@@ -266,7 +266,7 @@ def delete_coupon(request, pid):
 @user_passes_test(lambda u: u.is_superuser)
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)
 def manage_order(request):
-    orders=Order.objects.all().order_by('id')
+    orders=Order.objects.all().order_by('created_at')
     return render(request, 'admin/manage_order.html', locals())
 
 @user_passes_test(lambda u: u.is_superuser)
